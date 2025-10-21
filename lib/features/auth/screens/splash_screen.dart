@@ -1,12 +1,33 @@
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_strings.dart';
+import '../../../routes/app_routes.dart';
 
-/// Simple splash screen untuk Pertemuan 4
+/// Splash screen dengan auto-navigate ke TaskList (P5)
 ///
-/// CATATAN: Splash logic (auto-navigate, check auth) akan ditambahkan
-/// di Pertemuan 9 (Authentication & Session Management)
-class SplashScreen extends StatelessWidget {
+/// CATATAN: Auth check akan ditambahkan di Pertemuan 9
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _navigateToTaskList();
+  }
+
+  Future<void> _navigateToTaskList() async {
+    // Tunggu 2 detik
+    await Future.delayed(const Duration(seconds: 2));
+
+    // Navigate ke TaskList (replace, jadi ga bisa back)
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, AppRoutes.taskList);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

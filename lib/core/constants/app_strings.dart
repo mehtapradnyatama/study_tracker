@@ -22,22 +22,37 @@ class AppStrings {
   static const String save = 'Save';
   static const String delete = 'Delete';
   static const String ok = 'OK';
+  static const String confirm = 'Confirm';
+
+  // ==================== Navigation (P5) ====================
+  // Bottom navigation & main screens
+  static const String tasks = 'Tasks';
+  static const String dashboard = 'Dashboard';
+  static const String profile = 'Profile';
+
+  // ==================== Task List Screen (P5) ====================
+  static const String myTasks = 'My Tasks';
+  static const String noTasks = 'No tasks yet';
+  static const String addTask = 'Add Task';
+
+  // ==================== Priority Labels (P5) ====================
+  static const String priorityHigh = 'High';
+  static const String priorityMedium = 'Medium';
+  static const String priorityLow = 'Low';
+
+  // ==================== Status Labels (P5) ====================
+  static const String statusCompleted = 'Completed';
+  static const String statusPending = 'Pending';
+  static const String statusOverdue = 'Overdue';
+
+  // ==================== Task Actions (P5) ====================
+  static const String deleteTask = 'Delete Task';
+  static const String deleteTaskConfirm =
+      'Are you sure you want to delete this task?';
+  static const String taskDeleted = 'Task deleted';
 
   // ==================== TODO: Additional Strings ====================
   // Will be added progressively in future tutorials:
-
-  // TODO P5: Add navigation strings
-  // static const String tasks = 'Tasks';
-  // static const String dashboard = 'Dashboard';
-  // static const String profile = 'Profile';
-
-  // TODO P5-7: Add task feature strings
-  // static const String taskList = 'My Tasks';
-  // static const String addTask = 'Add Task';
-  // static const String taskTitle = 'Task Title';
-  // static const String priorityHigh = 'High';
-  // static const String categoryStudy = 'Study';
-  // etc...
 
   // TODO P6: Add form validation messages
   // static const String fieldRequired = 'This field is required';
