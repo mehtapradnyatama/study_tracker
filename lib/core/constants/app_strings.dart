@@ -51,24 +51,39 @@ class AppStrings {
       'Are you sure you want to delete this task?';
   static const String taskDeleted = 'Task deleted';
 
+  // ==================== Form Labels (P6) ====================
+  static const String taskTitle = 'Task Title';
+  static const String taskDescription = 'Description';
+  static const String taskDueDate = 'Due Date';
+  static const String taskCategory = 'Category';
+  static const String taskPriority = 'Priority';
+  static const String selectDate = 'Select Date';
+  static const String selectCategory = 'Select Category';
+
+  // ==================== Validation Messages (P6) ====================
+  static const String fieldRequired = 'This field is required';
+  static const String titleMinLength = 'Title must be at least 3 characters';
+  static const String descriptionMinLength =
+      'Description must be at least 10 characters';
+  static const String selectValidDate = 'Please select a valid date';
+  static const String selectValidCategory = 'Please select a category';
+
+  // ==================== Success Messages (P6) ====================
+  static const String taskCreated = 'Task created successfully';
+  static const String taskUpdated = 'Task updated successfully';
+  static const String draftSaved = 'Draft saved';
+  static const String draftLoaded = 'Draft loaded';
+
+  // ==================== Category Labels (P6) ====================
+  static const String categoryStudy = 'Study';
+  static const String categoryAssignment = 'Assignment';
+  static const String categoryProject = 'Project';
+  static const String categoryPersonal = 'Personal';
+
   // ==================== TODO: Additional Strings ====================
   // Will be added progressively in future tutorials:
 
-  // TODO P6: Add form validation messages
-  // static const String fieldRequired = 'This field is required';
-  // static const String titleTooShort = 'Title must be at least 3 characters';
-  // etc...
-
-  // TODO P7: Add success/error messages
-  // static const String taskCreated = 'Task created successfully';
-  // static const String errorGeneric = 'Something went wrong';
-  // etc...
-
   // TODO P9: Add authentication strings
-  // static const String login = 'Login';
-  // static const String register = 'Register';
-  // etc...
-
   // TODO P13: Add dashboard & analytics strings
   // TODO P14: Add profile & settings strings
 }
