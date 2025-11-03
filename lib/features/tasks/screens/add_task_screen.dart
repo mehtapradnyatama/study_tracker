@@ -31,12 +31,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     _descriptionController = quill.QuillController.basic();
   }
 
-  // ==================== DISPOSE ====================
-  // Method ini dipanggil saat widget dihapus dari widget tree
-  // WAJIB dispose controllers untuk mencegah memory leak
   @override
   void dispose() {
-    // Clean up controllers saat widget disposed
     _titleController.dispose();
     _descriptionController.dispose();
     super.dispose();
@@ -45,25 +41,17 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // ==================== APP BAR ====================
       appBar: AppBar(
         title: const Text(AppStrings.addTask),
-        // Back button otomatis muncul karena ada Navigator.push
       ),
-
-      // ==================== BODY ====================
       body: Form(
-        // Form widget: wrapper untuk semua form fields
-        // Menyediakan validation dan save functionality
-        key: _formKey, // Key untuk akses form state
-
+        key: _formKey,
         child: SingleChildScrollView(
-          // ScrollView supaya bisa scroll jika keyboard muncul
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // ==================== TITLE FIELD ====================
+              // Title Field
               TextFormField(
                 controller: _titleController,
                 decoration: const InputDecoration(
@@ -72,17 +60,14 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                   prefixIcon: Icon(Icons.title),
                   border: OutlineInputBorder(),
                 ),
-                // Capitalize pertama kata (UX yang bagus)
                 textCapitalization: TextCapitalization.sentences,
-                // Validator: fungsi yang return error message atau null
                 validator: Validators.taskTitle,
-                // Auto-validate setelah user mulai mengetik (setelah error pertama)
                 autovalidateMode: AutovalidateMode.onUserInteraction,
               ),
 
               const SizedBox(height: 16),
 
-              // ==================== DESCRIPTION FIELD - RICH TEXT EDITOR ====================
+              // Rich Text Editor
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -163,7 +148,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
               const SizedBox(height: 16),
 
-              // ==================== DATE PICKER ====================
+              // Date Picker
               InkWell(
                 onTap: _pickDate,
                 borderRadius: BorderRadius.circular(4),
@@ -193,7 +178,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
               const SizedBox(height: 16),
 
-              // ==================== CATEGORY DROPDOWN ====================
+              // Category Dropdown
               DropdownButtonFormField<TaskCategory>(
                 value: _selectedCategory,
                 decoration: const InputDecoration(
@@ -232,7 +217,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
               const SizedBox(height: 20),
 
-              // ==================== PRIORITY SELECTION ====================
+              // Priority Selection
               Text(
                 AppStrings.taskPriority,
                 style: Theme.of(context).textTheme.titleSmall?.copyWith(
@@ -241,7 +226,6 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               ),
               const SizedBox(height: 8),
 
-              // Adaptive layout dengan LayoutBuilder
               LayoutBuilder(
                 builder: (context, constraints) {
                   final isWideScreen = constraints.maxWidth > 600;
@@ -273,9 +257,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
 
               const SizedBox(height: 24),
 
-              // ==================== SAVE BUTTON ====================
+              // Save Button
               ElevatedButton(
-                // Disable button jika sedang loading
                 onPressed: _isLoading ? null : _saveTask,
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16),
