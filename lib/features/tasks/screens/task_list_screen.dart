@@ -17,10 +17,21 @@ class _TaskListScreenState extends State<TaskListScreen> {
   // Dummy data untuk P5
   late List<TaskModel> tasks;
 
+  // Filter state - defaultnya all untuk menampilkan semua tasks
+  TaskStatus? selectedFilter;
+
   @override
   void initState() {
     super.initState();
     tasks = TaskModel.getDummyTasks();
+  }
+
+  // Get filtered tasks based on selected filter
+  List<TaskModel> get filteredTasks {
+    if (selectedFilter == null) {
+      return tasks;
+    }
+    return tasks.where((task) => task.status == selectedFilter).toList();
   }
 
   @override
@@ -28,8 +39,10 @@ class _TaskListScreenState extends State<TaskListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(AppStrings.myTasks),
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
       ),
-      body: tasks.isEmpty ? _buildEmptyState() : _buildTaskList(),
+      body: tasks.isEmpty ? _buildEmptyState() : _buildTaskListWithFilter(),
       // P6: FloatingActionButton untuk quick access add task
       floatingActionButton: FloatingActionButton(
         onPressed: _navigateToAddTask,
@@ -62,14 +75,157 @@ class _TaskListScreenState extends State<TaskListScreen> {
     );
   }
 
-  Widget _buildTaskList() {
-    return ListView.builder(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      itemCount: tasks.length,
-      itemBuilder: (context, index) {
-        final task = tasks[index];
-        return _buildDismissibleTaskCard(task, index);
-      },
+  Widget _buildTaskListWithFilter() {
+    final displayedTasks = filteredTasks;
+
+    if (displayedTasks.isEmpty) {
+      return _buildEmptyFilterState();
+    }
+
+    return Column(
+      children: [
+        _buildFilterChips(),
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            itemCount: displayedTasks.length,
+            itemBuilder: (context, index) {
+              final task = displayedTasks[index];
+              final originalIndex = tasks.indexOf(task);
+              return _buildDismissibleTaskCard(task, originalIndex);
+            },
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildFilterChips() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            _buildFilterChip(
+              label: AppStrings.filterAll,
+              isSelected: selectedFilter == null,
+              onTap: () {
+                setState(() {
+                  selectedFilter = null;
+                });
+              },
+            ),
+            const SizedBox(width: 8),
+            _buildFilterChip(
+              label: AppStrings.statusPending,
+              isSelected: selectedFilter == TaskStatus.pending,
+              color: AppColors.statusPending,
+              onTap: () {
+                setState(() {
+                  selectedFilter = TaskStatus.pending;
+                });
+              },
+            ),
+            const SizedBox(width: 8),
+            _buildFilterChip(
+              label: AppStrings.statusOverdue,
+              isSelected: selectedFilter == TaskStatus.overdue,
+              color: AppColors.statusOverdue,
+              onTap: () {
+                setState(() {
+                  selectedFilter = TaskStatus.overdue;
+                });
+              },
+            ),
+            const SizedBox(width: 8),
+            _buildFilterChip(
+              label: AppStrings.statusCompleted,
+              isSelected: selectedFilter == TaskStatus.completed,
+              color: AppColors.statusCompleted,
+              onTap: () {
+                setState(() {
+                  selectedFilter = TaskStatus.completed;
+                });
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildFilterChip({
+    required String label,
+    required bool isSelected,
+    Color? color,
+    required VoidCallback onTap,
+  }) {
+    final chipColor = color ?? Theme.of(context).colorScheme.primary;
+
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? chipColor : Colors.transparent,
+          border: Border.all(
+            color: isSelected ? chipColor : AppColors.outline,
+            width: 1,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isSelected ? Colors.white : AppColors.onSurface,
+            fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
+            fontSize: 14,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildEmptyFilterState() {
+    String statusLabel = '';
+    if (selectedFilter == TaskStatus.pending) {
+      statusLabel = AppStrings.statusPending;
+    } else if (selectedFilter == TaskStatus.overdue) {
+      statusLabel = AppStrings.statusOverdue;
+    } else if (selectedFilter == TaskStatus.completed) {
+      statusLabel = AppStrings.statusCompleted;
+    }
+
+    return Column(
+      children: [
+        _buildFilterChips(),
+        Expanded(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(
+                  Icons.filter_list_off,
+                  size: 80,
+                  color: Theme.of(context).colorScheme.outline,
+                ),
+                const SizedBox(height: 16),
+                Text(
+                  '${AppStrings.noTasksWithStatus} "$statusLabel"',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .onSurface
+                            .withOpacity(0.6),
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 

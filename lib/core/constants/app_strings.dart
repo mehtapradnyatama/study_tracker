@@ -51,6 +51,10 @@ class AppStrings {
       'Are you sure you want to delete this task?';
   static const String taskDeleted = 'Task deleted';
 
+  // ==================== Filter Labels ====================
+  static const String filterAll = 'All';
+  static const String noTasksWithStatus = 'No tasks with status';
+
   // ==================== Form Labels (P6) ====================
   static const String taskTitle = 'Task Title';
   static const String taskDescription = 'Description';
